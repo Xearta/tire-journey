@@ -6,12 +6,16 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 direction;
-    public float forwardSpeed = 5.0f;
+    public float forwardSpeed = 10.0f;
+    public float maxSpeed = 50f;
     private int desiredLane = 1; // 0 = left; 1 = middle; 2 = right
     public float laneDistance = 4; // the distance between two lanes
 
     public float jumpForce = 1.0f;
     public float Gravity = -20f;
+
+    public Animator animator;
+    private bool isSliding = false;
 
 
     // Start is called before the first frame update
@@ -26,19 +30,32 @@ public class PlayerController : MonoBehaviour
         if (!PlayerManager.isGameStarted)
             return;
 
+        // Increase speed over time (not to exceed max)
+        if (forwardSpeed < maxSpeed)
+            forwardSpeed += 0.1f * Time.deltaTime;
+
+        animator.SetBool("isGameStarted", true);
+
         direction.z = forwardSpeed;   
 
         // Jumping + gravity
         if (controller.isGrounded)
         {
+            animator.SetBool("isGrounded", true);
             direction.y = -1;
             if (SwipeManager.swipeUp)
             {
                 Jump();
+                animator.SetBool("isGrounded", false);
             }
         } else 
         {
             direction.y += Gravity * Time.deltaTime;
+        }
+
+        if (SwipeManager.swipeDown && !isSliding)
+        {
+            StartCoroutine(Slide());
         }
 
         
@@ -87,7 +104,7 @@ public class PlayerController : MonoBehaviour
     {
          if (!PlayerManager.isGameStarted)
             return;
-            
+
         controller.Move(direction * Time.fixedDeltaTime);
     }
 
@@ -103,5 +120,25 @@ public class PlayerController : MonoBehaviour
             PlayerManager.gameOver = true;
             // FindObjectOfType<AudioManager>().PlaySound("GameOver");
         }
+    }
+
+    private IEnumerator Slide()
+    {
+        isSliding = true;
+        animator.SetBool("isSliding", true);
+        
+
+        // Change the collider box when sliding
+        controller.center = new Vector3(0, -0.5f, 0);
+        controller.height = 1;
+
+        yield return new WaitForSeconds(1.3f);
+
+        controller.center = new Vector3(0, 0, 0);
+        controller.height = 2;
+
+        animator.SetBool("isSliding", false);
+        isSliding = false;
+
     }
 }
