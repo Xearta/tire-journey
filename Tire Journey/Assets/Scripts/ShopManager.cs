@@ -92,7 +92,7 @@ public class ShopManager : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         ShopElement ch = characters[currentCharacterIndex];
         coinsText.text = PlayerPrefs.GetInt("TotalCoins", 0).ToString();

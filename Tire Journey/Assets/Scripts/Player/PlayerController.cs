@@ -18,6 +18,11 @@ public class PlayerController : MonoBehaviour
     private bool isSliding = false;
 
 
+    private void Awake()
+    {
+        AdManager.instance.RequestInterstitial();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,6 +116,14 @@ public class PlayerController : MonoBehaviour
         {
             PlayerManager.gameOver = true;
             FindObjectOfType<AudioManager>().PlaySound("GameOver");
+
+            // Show ad randomly (0-2 || 33% of time)
+            int testNum = Random.Range(0, 3);
+
+            Debug.Log(testNum);
+
+            if (testNum == 0)
+                AdManager.instance.ShowInterstitial();
         }
     }
 

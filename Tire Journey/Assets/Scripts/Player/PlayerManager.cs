@@ -16,7 +16,6 @@ public class PlayerManager : MonoBehaviour
 
     public static int numberOfCoins;
     public Text coinsText;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +67,7 @@ public class PlayerManager : MonoBehaviour
     public void GoToMenu()
     {
         SceneManager.LoadScene("Menu");
+        Time.timeScale = 1;
     }
 
     public void ReplayGame()
