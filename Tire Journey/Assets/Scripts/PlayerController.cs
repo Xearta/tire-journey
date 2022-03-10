@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        direction.z = forwardSpeed;
+        if (!PlayerManager.isGameStarted)
+            return;
 
-        
+        direction.z = forwardSpeed;   
 
         // Jumping + gravity
         if (controller.isGrounded)
@@ -84,6 +85,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+         if (!PlayerManager.isGameStarted)
+            return;
+            
         controller.Move(direction * Time.fixedDeltaTime);
     }
 
