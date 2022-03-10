@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
         if (controller.isGrounded)
         {
             animator.SetBool("isGrounded", true);
-            direction.y = -1;
             if (SwipeManager.swipeUp)
             {
                 Jump();
@@ -96,16 +95,9 @@ public class PlayerController : MonoBehaviour
                 controller.Move(diff);
         }
 
-        // controller.Move(move * Time.deltaTime);
+        // Move Player
+        controller.Move(direction * Time.deltaTime);
 
-    }
-
-    private void FixedUpdate()
-    {
-         if (!PlayerManager.isGameStarted)
-            return;
-
-        controller.Move(direction * Time.fixedDeltaTime);
     }
 
     private void Jump()
