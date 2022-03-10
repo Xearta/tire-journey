@@ -12,8 +12,11 @@ public class PlayerManager : MonoBehaviour
     public static bool isGameStarted;
     public GameObject startingText;
 
+    public static bool isGamePaused;
+
     public static int numberOfCoins;
     public Text coinsText;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -27,19 +30,44 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        coinsText.text = "Coins: " + PlayerPrefs.GetInt("TotalCoins", 0);
+
         if (gameOver)
         {
             Time.timeScale = 0;
             gameOverPanel.SetActive(true);
         }
 
-        coinsText.text = "Coins: " + numberOfCoins;
 
         if (SwipeManager.tap)
         {
             isGameStarted = true;
             Destroy(startingText);
         }
+    }
+
+    public void PauseGame()
+    {
+        if (!isGamePaused && !gameOver)
+        {
+            Time.timeScale = 0;
+            isGamePaused = true;
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (isGamePaused)
+        {
+            Time.timeScale = 1;
+            isGamePaused = false;
+        }
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 
     public void ReplayGame()
