@@ -829,7 +829,7 @@ GameObject:
   - component: {fileID: 1270345417}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -864,7 +864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115938bc1b67a45bda4171799ac4c2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 8
+  forwardSpeed: 10
+  maxSpeed: 50
   laneDistance: 2.5
   jumpForce: 12
   Gravity: -20
@@ -890,7 +891,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1270345416}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
