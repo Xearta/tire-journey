@@ -14,8 +14,8 @@ public class PlayerManager : MonoBehaviour
 
     public static bool isGamePaused;
 
-    public static int numberOfCoins;
     public Text coinsText;
+    public Text scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,6 @@ public class PlayerManager : MonoBehaviour
         Time.timeScale = 1;
         gameOver = false;
         isGameStarted = false;
-        numberOfCoins = 0;
     }
 
     // Update is called once per frame
@@ -31,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     {
 
         coinsText.text = "Coins: " + PlayerPrefs.GetInt("TotalCoins", 0);
+        scoreText.text = "Score: " + PlayerPrefs.GetInt("CurrentScore", 0);
 
         if (gameOver)
         {

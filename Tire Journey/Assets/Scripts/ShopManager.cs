@@ -12,6 +12,7 @@ public class ShopManager : MonoBehaviour
     public Button playButton;
 
     public Text coinsText;
+    public Text highScoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -96,6 +97,7 @@ public class ShopManager : MonoBehaviour
     {
         ShopElement ch = characters[currentCharacterIndex];
         coinsText.text = PlayerPrefs.GetInt("TotalCoins", 0).ToString();
+        highScoreText.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
 
         if (ch.isLocked)
         {

@@ -41,7 +41,15 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isGameStarted", true);
 
-        direction.z = forwardSpeed;   
+        direction.z = forwardSpeed;
+
+        // Get distance for score and save for current score
+        PlayerPrefs.SetInt("CurrentScore", Mathf.RoundToInt(transform.position.z));
+        
+        
+
+        
+
 
         // Jumping + gravity
         if (controller.isGrounded)
@@ -113,14 +121,22 @@ public class PlayerController : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if(hit.transform.tag == "Obstacle")
-        {
+        {   
+            Debug.Log("Score: " + PlayerPrefs.GetInt("CurrentScore", 0) + " Hi: " + PlayerPrefs.GetInt("HighScore", 0));
+
+             // Update high score, if applicable
+            if (PlayerPrefs.GetInt("CurrentScore", 0) > PlayerPrefs.GetInt("HighScore", 0)) {
+                PlayerPrefs.SetInt("HighScore", Mathf.RoundToInt(transform.position.z));
+                Debug.Log("NEW HIGH SCORE: " + PlayerPrefs.GetInt("HighScore", 0));
+            }
+
+            // Play game over sequence
             PlayerManager.gameOver = true;
             FindObjectOfType<AudioManager>().PlaySound("GameOver");
+            
 
             // Show ad randomly (0-2 || 33% of time)
             int testNum = Random.Range(0, 3);
-
-            Debug.Log(testNum);
 
             if (testNum == 0)
                 AdManager.instance.ShowInterstitial();
