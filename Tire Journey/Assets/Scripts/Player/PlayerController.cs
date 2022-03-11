@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     private bool isSliding = false;
 
+    public PlayerManager playerManager;
+
 
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isGameStarted", true);
 
-        direction.z = forwardSpeed;
+            direction.z = forwardSpeed;
 
         // Get distance for score and save for current score
         PlayerPrefs.SetInt("CurrentScore", Mathf.RoundToInt(transform.position.z));
@@ -109,7 +111,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Move Player
-        controller.Move(direction * Time.deltaTime);
+        if (!playerManager.isGamePaused)
+            controller.Move(direction * Time.deltaTime);
 
     }
 
@@ -133,7 +136,7 @@ public class PlayerController : MonoBehaviour
             // Play game over sequence
             PlayerManager.gameOver = true;
             FindObjectOfType<AudioManager>().PlaySound("GameOver");
-            
+
 
             // Show ad randomly (0-2 || 33% of time)
             int testNum = Random.Range(0, 3);
